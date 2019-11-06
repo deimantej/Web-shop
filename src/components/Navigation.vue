@@ -12,6 +12,12 @@
         <router-link tag="li" to="/about">
           <v-icon color="inprogress">info</v-icon>About
         </router-link>
+        <router-link tag="li" to="/login">
+          <v-icon color="inprogress">info</v-icon>Login
+        </router-link>
+         <router-link tag="li" to="/admin">
+          <v-icon color="inprogress">lock</v-icon>Admin
+        </router-link>
       </ul>
     </v-navigation-drawer>
 

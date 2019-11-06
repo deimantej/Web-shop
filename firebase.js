@@ -5,13 +5,13 @@ import "firebase/firestore"
 
   // Your web app's Firebase configuration
   var firebaseConfig = {
-    apiKey: "AIzaSyB2vmf0sgMYCyeaaFtEpYi1ZodnvSyMw4U",
-    authDomain: "peak-eon-535.firebaseapp.com",
-    databaseURL: "https://peak-eon-535.firebaseio.com",
-    projectId: "peak-eon-535",
-    storageBucket: "peak-eon-535.appspot.com",
-    messagingSenderId: "1094237355187",
-    appId: "1:1094237355187:web:6da48a1a9d0bdc8e4ac4c6"
+      apiKey: "AIzaSyBSGq7qnUcYEVtpD2ghPXr0nv3x0ssLZrg",
+      authDomain: "bagelshop-4375a.firebaseapp.com",
+      databaseURL: "https://bagelshop-4375a.firebaseio.com",
+      projectId: "bagelshop-4375a",
+      storageBucket: "bagelshop-4375a.appspot.com",
+      messagingSenderId: "592675700749",
+      appId: "1:592675700749:web:a627cea99517167de85544"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);

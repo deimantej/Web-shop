@@ -2,12 +2,16 @@
   <v-container>
     <v-row>
       <v-col offset-md="1" md="5">
-        <h1>Menu items</h1>
+        <h1>Metu items</h1>
         <div class="pa-2" id="info">
           <v-simple-table id="menu-table">
             <thead>
               <tr>
-                <th class="text-left" style="width:70%">Name of time</th>
+                <th class="text-left" style="width:70%">Name
+                <v-btn color="orange" left small text to="/addNew">
+                    <v-icon>add</v-icon> <span style="padding:0 10px;">Add item</span>
+                </v-btn> 
+                </th>
                 <th class="text-left" style="width:100px">Price</th>
                 <th class="text-left" style="width:100px">Add to basket</th>
               </tr>
@@ -24,6 +28,16 @@
                   <v-btn small text v-on:click="addToBasket(item)">
                     <v-icon color="orange">add_box</v-icon>
                   </v-btn>
+                </td>
+                <td>
+                    <v-btn small text> 
+                        <v-icon color="orange">edit</v-icon>
+                    </v-btn>
+                </td>
+                <td>
+                    <v-btn small text @click="deleteItem(item.id)">
+                        <v-icon color="incomplete">delete</v-icon>
+                    </v-btn>
                 </td>
               </tr>
             </tbody>
@@ -84,37 +98,14 @@
 </template>
 
 <script>
-
-
 import {dbMenuAdd} from '../../firebase'
 export default {
   data() {
     return {
       basket: [],
       menuItems: [
-        /*
-        {
-          name: "Frozen Yogurt",
-          description: "Sugar,stuff and more sugar",
-          price: 159
-        },
-        {
-          name: "Ice cream sandwich",
-          description: "Sugar,stuff and more sugar",
-          price: 237
-        },
-        {
-          name: "Eclair",
-          description: "Sugar,stuff and more sugar",
-          price: 262
-        },
-        {
-          name: "Cupcake",
-          description: "Sugar,stuff and more sugar",
-          price: 305
-        }
-        */
-      ]
+        
+      ],
     };
   },
   created() {
@@ -132,6 +123,13 @@ export default {
     })
   },
   methods: {
+    deleteItem(id) {
+        dbMenuAdd.doc(id).delete().then(function() {
+           // console.log("Document successfully deleted!");
+        }).catch(function(error) {
+          //  console.error("Error removing document: ", error);
+        });
+    },
     addToBasket(item) {
       if (this.basket.find(itemInArray => item.name === itemInArray.name)) {
         item = this.basket.find(itemInArray => item.name === itemInArray.name);
@@ -172,10 +170,6 @@ export default {
   }
 };
 </script>
-
-
-
-
 <style lang="scss" scoped>
 .col h1 {
   @include infobox_mixin(
