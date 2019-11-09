@@ -87,10 +87,11 @@
 
 
 import {dbMenuAdd} from '../../firebase'
+
 export default {
   data() {
     return {
-      basket: [],
+      basketDump:[],
       menuItems: [
         /*
         {
@@ -133,7 +134,7 @@ export default {
   },
   methods: {
     addToBasket(item) {
-      if (this.basket.find(itemInArray => item.name === itemInArray.name)) {
+  /*    if (this.basket.find(itemInArray => item.name === itemInArray.name)) {
         item = this.basket.find(itemInArray => item.name === itemInArray.name);
         this.increaseQtn(item);
       } else {
@@ -142,7 +143,14 @@ export default {
           price: item.price,
           quantity: 1
         });
-      }
+      } */
+      this.basketDump.push({
+          name: item.name,
+          price: item.price,
+          quantity: 1
+        });
+        this.$store.commit('addBasketItems', this.basketDump);
+        this.basketDump = [];
     },
     increaseQtn(item) {
       item.quantity++;
@@ -156,6 +164,10 @@ export default {
     }
   },
   computed: {
+      basket() {
+       // return this.$store.state.basketItems
+       return this.$store.getters.getBasketItems
+      },
       subTotal () {
           var subCost = 0;
           for( var items in this.basket) {

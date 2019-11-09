@@ -13,6 +13,8 @@
           <v-text-field label="Price" required v-model="price">
 
           </v-text-field>
+          <v-file-input label="file input"  @change="uploadImage"></v-file-input>
+         
           <v-btn 
           color="complete" 
           @click="addNewMenuItem()"
@@ -65,6 +67,10 @@ export default {
        }
    },
    methods:{
+     uploadImage(e){
+       let file = e.target.files[0];
+       console.log(e.target.files[0]);
+     },
     addNewMenuItem() {
         dbMenuAdd.add({
             name: this.name,

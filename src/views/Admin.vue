@@ -1,5 +1,20 @@
 <template>
   <v-container>
+
+    <v-snackbar
+      v-model="updatedSuccess"
+    >
+      {{ updatedText }}
+      <v-btn
+        color="pink"
+        text
+        @click="updatedSuccess = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+
+
     <v-row>
       <v-col offset-md="1" md="5">
         <h1>Metu items</h1>
@@ -23,14 +38,15 @@
                   <br />
                   <span id="menu_item_description">{{ item.description }}</span>
                 </td>
-                <td>{{ item.calories }}</td>
+                <td>{{ item.price }}</td>
                 <td>
                   <v-btn small text v-on:click="addToBasket(item)">
                     <v-icon color="orange">add_box</v-icon>
                   </v-btn>
                 </td>
                 <td>
-                    <v-btn small text> 
+                    <v-btn small text @click.stop="dialog = true"
+                     @click="editItem(item)"> 
                         <v-icon color="orange">edit</v-icon>
                     </v-btn>
                 </td>
@@ -64,6 +80,16 @@
                 </td>
                 <td>{{ item.name }}</td>
                 <td>{{item.price}}</td>
+                <td>
+                  <v-btn small text @click.stop="dialog =true" >
+                    <v-icon color="orange">edit</v-icon>
+                  </v-btn>
+                </td>
+                <td>
+                  <v-btn small text @click="deleteItem(item.id)">
+                    <v-icon color="incomplete">delete</v-icon>
+                  </v-btn>
+                </td>
               </tr>
             </tbody>
           </v-simple-table>
@@ -94,6 +120,35 @@
         </div>
       </v-col>
     </v-row>
+    <v-row>
+      <v-dialog
+      v-model="dialog"
+      max-width="400"
+    >
+      <v-card>
+
+ <h1>Edit new item</h1>
+        <div class="pa-5" id="info">
+          <v-text-field v-model="item.name"></v-text-field>
+          <v-text-field v-model="item.description"></v-text-field>
+          <v-text-field v-model="item.price"></v-text-field>
+          <v-btn 
+          color="complete" 
+          @click="updateItem()"
+          @click.stop="dialog=false"
+          >
+              Edit item
+          </v-btn>
+          <v-btn color="incomplete" @click.stop="dialog=false">
+              Close
+          </v-btn>
+        </div>
+
+
+
+      </v-card>
+    </v-dialog>
+    </v-row>
   </v-container>
 </template>
 
@@ -103,26 +158,36 @@ export default {
   data() {
     return {
       basket: [],
-      menuItems: [
-        
-      ],
+      dialog: false,
+      item:[],
+      activeEditItem: null,
+      updatedSuccess: false,
+      updatedText: 'Menu Item has been updated'
     };
   },
-  created() {
-    dbMenuAdd.get().then((querySnapshot) => {
-      querySnapshot.forEach((doc =>{
-        console.log(doc.id, " => ", doc.data());
-        var menuItemData = doc.data();
-        this.menuItems.push({
-          id: doc.id,
-          name: menuItemData.name,
-          description: menuItemData.description,
-          price: menuItemData.price,
-        })
-      }))
-    })
+  beforeCreate(){
+    this.$store.dispatch('setMenuItems')
   },
+  
   methods: {
+    editItem(item){
+      this.item = item
+      this.activeEditItem = item.id
+    },
+    updateItem(){
+
+      dbMenuAdd.doc(this.activeEditItem).update(this.item).then(() => {
+        this.updatedSuccess = true;
+        console.log("Document successfully updated!");
+        })
+        .catch(function(error) {
+            // The document probably doesn't exist.
+          //  console.error("Error updating document: ", error);
+        });
+
+
+
+    },
     deleteItem(id) {
         dbMenuAdd.doc(id).delete().then(function() {
            // console.log("Document successfully deleted!");
@@ -154,6 +219,9 @@ export default {
     }
   },
   computed: {
+      menuItems(){
+        return this.$store.getters.getMenuItems
+      },
       subTotal () {
           var subCost = 0;
           for( var items in this.basket) {

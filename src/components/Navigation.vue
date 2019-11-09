@@ -1,6 +1,28 @@
 <template>
   <div>
     <v-navigation-drawer color="primary" v-model="drawer" app>
+      <div v-if="currentUser">
+        <v-card class="mx-auto" max-width="200" tile>
+          <v-img height="100%" src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg">
+            <v-row align="end" class="fill-height">
+              <v-col align-self="start" class="pa-0" cols="12">
+                <v-avatar class="profile" color="grey" size="65" tile>
+                  <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+                </v-avatar>
+              </v-col>
+              <v-col class="py-0">
+                <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                  <v-list-item-content>
+                    <v-list-item-title class="title">{{ currentUser.email }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-col>
+            </v-row>
+          </v-img>
+        </v-card>
+
+      </div>
+
       <ul>
         <router-link tag="li" to="/">
           <v-icon color="orange">home</v-icon>Home
@@ -15,7 +37,7 @@
         <router-link tag="li" to="/login">
           <v-icon color="inprogress">info</v-icon>Login
         </router-link>
-         <router-link tag="li" to="/admin">
+        <router-link tag="li" to="/admin">
           <v-icon color="inprogress">lock</v-icon>Admin
         </router-link>
       </ul>
@@ -32,10 +54,27 @@
 </template>
 
 <script>
+import { db } from "../../firebase";
+
+import firebase from "firebase";
+import "firebase/firestore";
+import store from "../store.js";
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    store.dispatch("setUser", user);
+  } else {
+    store.dispatch("setUser", null);
+  }
+});
 export default {
   data: () => ({
     drawer: null
-  })
+  }),
+  computed: {
+    currentUser() {
+      return this.$store.getters.currentUser;
+    }
+  }
 };
 </script>
 
