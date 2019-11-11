@@ -18,6 +18,7 @@
           <v-btn 
           color="complete" 
           @click="addNewMenuItem()"
+          :disabled="btnDisable"
           >
               Add item
           </v-btn>
@@ -55,7 +56,7 @@
 
 <script>
 
-import {dbMenuAdd} from '../../../firebase'
+import {dbMenuAdd, fb } from '../../../firebase'
 export default {
     
     data() {
@@ -63,19 +64,42 @@ export default {
             name:'',
             description:'',
             price:'',
+            image: null,
+            btnDisable: true
 
        }
    },
    methods:{
      uploadImage(e){
-       let file = e.target.files[0];
+       let files = e.target.files[0];
        console.log(e.target.files[0]);
+       var storageRef = fb.storage().ref('products/'+ files.name);
+
+       let uploadTask = storageRef.put(files);
+
+      uploadTask.on('state_changed', (snapshot) => {
+  
+      }, (error) => {
+        // Handle unsuccessful uploads
+      }, () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          this.image = downloadURL;
+          this.btnDisable = false;
+          console.log('File available at', downloadURL);
+        });
+      });
+
+
+
      },
     addNewMenuItem() {
         dbMenuAdd.add({
             name: this.name,
             description: this.description,
             price: this.price,
+            image: this.image,
             })
         },
     }

@@ -40,6 +40,9 @@
         <router-link tag="li" to="/admin">
           <v-icon color="inprogress">lock</v-icon>Admin
         </router-link>
+        <router-link tag="li" v-if="currentUser" to="/orders" class="complete--text">
+          <v-icon color="complete">assignment</v-icon>Orders
+        </router-link>
       </ul>
     </v-navigation-drawer>
 

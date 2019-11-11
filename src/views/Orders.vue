@@ -2,8 +2,48 @@
   <v-container>
     <v-row>
       <v-col offset-md="1" md="5">
-        <h1>Menu items</h1>
+        <h1>orders</h1>
         <div class="pa-2" id="info">
+            <v-row>
+                <v-col cols="12" md="1" class="pa-2"> 
+                    <p class="font-weight-bold body-1 pl-1 darkgrey--text">
+                        INFO:
+                    </p>
+                </v-col>
+
+                <v-col cols="12" md="5" class="pa-2 pl-5"> 
+                    <v-row align="center">
+                        <div id="status_box" class="complete"> COMPLETED </div>
+                        <span class="font-weight-light caption pl-1"> Done </span>
+                    </v-row>
+                     <v-row align="center">
+                        <div id="status_box" class="orange"> IN-PROGRESS </div>
+                        <span class="font-weight-light caption pl-1"> Somebody is working on it </span>
+                    </v-row>
+                     <v-row align="center">
+                        <div id="status_box" class="incomplete"> NOT STARTED </div>
+                        <span class="font-weight-light caption pl-1"> Not started yet </span>
+                    </v-row>
+                </v-col>
+
+                <v-col cols="12" md="6" class="pa-2"> 
+                    <v-row>
+                        <p class="font-weight-light caption pl-1"> Single-click to switch stage </p>
+                    </v-row>
+
+
+
+                </v-col>
+            </v-row>
+        </div>
+
+
+
+            <div class="pa-2 mt-1" id="info">
+               
+
+                
+            </div>
           <v-simple-table id="menu-table">
             <thead>
               <tr>
@@ -32,55 +72,19 @@
               </tr>
             </tbody>
           </v-simple-table>
-        </div>
+        
       </v-col>
       <v-col offset-md="1" md="4">
-        <h1>Current basket</h1>
+        <h1>Revenue</h1>
         <div class="pa-2" id="info">
-          <v-simple-table id="menu-table" v-if="basket.length > 0">
-            <thead>
-              <tr>
-                <th class="text-left" style="width:30%">Quantity</th>
-                <th class="text-left" style="width:50%">Name of item</th>
-                <th class="text-left" style="width:20%">Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in basket" :key="item.name">
-                <td>
-                  <v-icon color="orange" @click="increaseQtn(item)">add_box</v-icon>
-                  {{ item.quantity }}
-                  <v-icon color="orange" @click="decreaseQtn(item)">indeterminate_check_box</v-icon>
-                </td>
-                <td>{{ item.name }}</td>
-                <td>{{item.price}}</td>
-              </tr>
-            </tbody>
-          </v-simple-table>
-
-          <v-simple-table v-else>
-            <p>The basket is empty</p>
-          </v-simple-table>
-
-          <v-divider></v-divider>
-          <v-row id="basket_checkout" class="mt-4" style="margin:0;">
-            <v-col>
-              <p>Subtotal:</p>
-              <p>Delivery:</p>
-              <p>Total amount:</p>
-            </v-col>
-            <v-col class="text-right">
-              <p>{{subTotal}} DKK</p>
-              <p>10 DKK</p>
-              <p>
-                <b>{{total}} DKK</b>
-              </p>
-            </v-col>
-          </v-row>
-          <v-row style="margin:0;">
-            <v-spacer></v-spacer>
-            <v-btn color="orange">Checkout</v-btn>
-          </v-row>
+            Revenue
+          
+          
+        </div>
+        <div class="pa-2 mt-1" id="info">
+            completed orders
+          
+          
         </div>
       </v-col>
     </v-row>
@@ -162,49 +166,16 @@ export default {
 
 
 <style lang="scss" scoped>
-.col h1 {
-  @include infobox_mixin(
-    5px,
-    map-get($colorz, white),
-    10px,
-    5px,
-    map-get($colorz, white)
-  );
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 16px;
-  text-align: right;
-}
-.col:last-child h1 {
-  text-align: left;
-}
-#info {
-  background-color: white;
-}
-tr th {
-  font-weight: 300;
-}
-#td_name {
-  font-weight: bold;
-}
-tr td {
-  padding: 10px 10px 10px 16px;
-}
-#menu_item_description {
-  font-style: italic;
-  font-weight: 300;
-  color: map-get($colorz, darkgrey);
-  font-size: 13px;
-}
-#td_menuitem_img{
-  max-width: 40px;
-  max-height: 40px;
-  padding:0;
-}
-#basket_checkout {
-  font-size: 13px;
-}
-#basket_checkout p:first-child {
-  line-height: 2px;
+#status_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    width: 90px;
+    font-size: 12px;
+    border-radius: 2px;
+    margin: 5px 0;
+    color: map-get($colorz, white);
+    text-shadow: 1px 1px 1px #aaa;
 }
 </style>
