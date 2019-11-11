@@ -13,7 +13,7 @@
           <v-text-field label="Price" required v-model="price">
 
           </v-text-field>
-          <v-file-input label="file input"  @change="uploadImage"></v-file-input>
+          <v-file-input label="File input" @change="uploadImage"></v-file-input>
          
           <v-btn 
           color="complete" 
@@ -71,11 +71,11 @@ export default {
    },
    methods:{
      uploadImage(e){
-       let files = e.target.files[0];
-       console.log(e.target.files[0]);
-       var storageRef = fb.storage().ref('products/'+ files.name);
+       let file = e;
+       console.log(e);
+       var storageRef = fb.storage().ref('products/'+ file.name);
 
-       let uploadTask = storageRef.put(files);
+       let uploadTask = storageRef.put(file);
 
       uploadTask.on('state_changed', (snapshot) => {
   
