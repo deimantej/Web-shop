@@ -1,10 +1,10 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
-      <v-col offset-md="1" md="5">
-        <h1>orders</h1>
+      <v-col offset-md="1" md="6">
+        <h1>Orders</h1>
         <div class="pa-2" id="info">
-            <v-row>
+            <v-row class="ma-0">
                 <v-col cols="12" md="1" class="pa-2"> 
                     <p class="font-weight-bold body-1 pl-1 darkgrey--text">
                         INFO:
@@ -28,7 +28,17 @@
 
                 <v-col cols="12" md="6" class="pa-2"> 
                     <v-row>
-                        <p class="font-weight-light caption pl-1"> Single-click to switch stage </p>
+                        <div id="status_box" class="complete"> COMPLETED </div>
+                        <div id="status_box" class="orange"> IN-PROGRESS </div>
+                        <div id="status_box" class="incomplete"> NOT STARTED </div>
+                    </v-row>
+                    <v-row>
+                        <p class="font-weight-light caption pl-1"> 
+                           <b> Single-click </b> to switch stage: complete => in progress => <b> Double click </b>the box to reset "not started" </p>
+                           <span  class="font-weight-light caption pl-1">
+                               <v-icon color="grey">archive</v-icon>
+                               Archive to "hide" it from orders list
+                           </span>
                     </v-row>
 
 
@@ -37,9 +47,12 @@
             </v-row>
         </div>
 
-
+        <!---------- Orders list area --------------->
 
             <div class="pa-2 mt-1" id="info">
+                <p class="font-weight-bold body-1 pl-1 darkgrey--text">
+                        ORDERS:
+                    </p>
                
 
                 
@@ -47,26 +60,42 @@
           <v-simple-table id="menu-table">
             <thead>
               <tr>
-                <th></th>
-                <th class="text-left" style="width:70%">Name of time</th>
-                <th class="text-left" style="width:100px">Price</th>
-                <th class="text-left" style="width:100px">Add to basket</th>
+                <th class="text-left" style="width:10%">Order nr.</th>
+                <th class="text-left" style="width:10%">QTY</th>
+                <th class="text-left" style="width:40%">Item</th>
+                <th class="text-left" style="width:10%">Price</th>
+                <th class="text-left" style="width:10%">Status</th>
+                <th class="text-left" style="width:10%">Archive item</th>
+                <th class="text-left" style="width:10%">Remove</th>
               </tr>
             </thead>
-            <tbody>
-              <tr v-for="item in menuItems" :key="item.name">
-                <td id="td_menuitem_img">
-                  <v-img v-bind:src="item.image"></v-img>
-                </td>
+            <tbody class="font-weight-light">
+              <tr v-for="item in orderItems" :key="item.name">
                 <td>
-                  <span id="td_name">{{ item.name }}</span>
-                  <br />
-                  <span id="menu_item_description">{{ item.description }}</span>
+                  {{ item.orderNumber }}
                 </td>
-                <td>{{ item.calories }}</td>
+                <td class="py-3" >
+                    <p v-for="subitem in item.orderLines" :key="subitem.id" style="margin:0; ">{{ subitem.quantity }}</p>    
+                </td>
+                <td class="py-3" >
+                    <p v-for="subitem in item.orderLines" :key="subitem.id" style="margin:0; ">{{ subitem.name }}</p>    
+                </td>
+                <td class="py-3" >
+                    <p v-for="subitem in item.orderLines" :key="subitem.id" style="margin:0; ">{{ subitem.price }}</p>    
+                </td>
+                
+
+                <td>
+                     <div id="status_box" class="orange"> {{ item.status }} </div>
+                </td>
                 <td>
                   <v-btn small text v-on:click="addToBasket(item)">
-                    <v-icon color="orange">add_box</v-icon>
+                    <v-icon color="darkgrey">archive</v-icon>
+                  </v-btn>
+                </td>
+                <td>
+                  <v-btn small text v-on:click="deleteOrderItem(item.id)">
+                    <v-icon color="incomplete">delete</v-icon>
                   </v-btn>
                 </td>
               </tr>
@@ -74,7 +103,7 @@
           </v-simple-table>
         
       </v-col>
-      <v-col offset-md="1" md="4">
+      <v-col offset-md="0" md="4">
         <h1>Revenue</h1>
         <div class="pa-2" id="info">
             Revenue
@@ -94,7 +123,7 @@
 <script>
 
 
-import {dbMenuAdd} from '../../firebase'
+import {dbMenuAdd, dbOrders} from '../../firebase'
 
 export default {
   data() {
@@ -104,9 +133,16 @@ export default {
     }
   },
   beforeCreate(){
-    this.$store.dispatch('setMenuItems')
+    this.$store.dispatch('setOrderItems')
   },
   methods: {
+    deleteOrderItem(id){
+        dbOrders.doc(id).delete().then(() => {
+            console.log("stuff is deleted");
+        }).catch((error)=> {
+
+        })
+    },
     addToBasket(item) {
   /*    if (this.basket.find(itemInArray => item.name === itemInArray.name)) {
         item = this.basket.find(itemInArray => item.name === itemInArray.name);
@@ -142,8 +178,8 @@ export default {
        // return this.$store.state.basketItems
        return this.$store.getters.getBasketItems
       },
-      menuItems(){
-        return this.$store.getters.getMenuItems
+      orderItems(){
+        return this.$store.getters.getOrderItems
       },
       subTotal () {
           var subCost = 0;

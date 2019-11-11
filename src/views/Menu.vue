@@ -23,7 +23,7 @@
                   <br />
                   <span id="menu_item_description">{{ item.description }}</span>
                 </td>
-                <td>{{ item.calories }}</td>
+                <td>{{ item.price }}</td>
                 <td>
                   <v-btn small text v-on:click="addToBasket(item)">
                     <v-icon color="orange">add_box</v-icon>
@@ -79,7 +79,7 @@
           </v-row>
           <v-row style="margin:0;">
             <v-spacer></v-spacer>
-            <v-btn color="orange">Checkout</v-btn>
+            <v-btn color="orange" @click="addCheckoutItem()">Checkout</v-btn>
           </v-row>
         </div>
       </v-col>
@@ -103,6 +103,9 @@ export default {
     this.$store.dispatch('setMenuItems')
   },
   methods: {
+    addCheckoutItem() {
+      this.$store.dispatch('setCheckoutItem')
+    },
     addToBasket(item) {
   /*    if (this.basket.find(itemInArray => item.name === itemInArray.name)) {
         item = this.basket.find(itemInArray => item.name === itemInArray.name);

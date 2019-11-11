@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { dbMenuAdd } from '../firebase'
+import { dbMenuAdd, dbOrders } from '../firebase'
 
 import firebase from 'firebase'
 import 'firebase/firestore'
@@ -9,18 +9,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    basketItems: [
-      {
-        name: "Bagel supreme",
-        description: "daug maisto",
-        price: 159,
-        quantity:1
-      },
-    ],
+    basketItems: [],
     menuItems:[],
+    orderItems: [],
     currentUser: null
   },
   mutations: {
+    addCheckoutItem: (state, basketItems) => {
+      dbOrders.add({
+        orderNumber:2,
+        status: "not started",
+        orderLines: state.basketItems
+      })
+    },
     addBasketItems: (state, basketItems) => {
       if (basketItems instanceof Array) {
 
@@ -61,21 +62,43 @@ export default new Vuex.Store({
         })
         state.menuItems = menuItems
       }
+    )},
+    setOrderItems: state => {
+      let orderItems =[]
+
+      dbOrders.onSnapshot((snapshotItems) => {
+        orderItems = []
+        snapshotItems.forEach((doc) => {
+          var orderItemData = doc.data();
+          orderItems.push({
+            ...orderItemData,
+            id: doc.id
+          })
+        })
+        state.orderItems = orderItems
+      }
     )}
   },
     
 
   actions: {
+    setCheckoutItem(context) {
+      context.commit('addCheckoutItem')
+    },
     setUser(context, user) {
       context.commit('userStatus', user)
     },
     setMenuItems: context => {
       context.commit('setMenuItems')
+    },
+    setOrderItems: context => {
+      context.commit('setOrderItems')
     }
   },
   getters: {
     getBasketItems: state => state.basketItems,
     currentUser: state => state.currentUser,
-    getMenuItems: state => state.menuItems
+    getMenuItems: state => state.menuItems,
+    getOrderItems: state => state.orderItems
   },
 })
