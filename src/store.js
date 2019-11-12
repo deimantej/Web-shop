@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { dbMenuAdd, dbOrders } from '../firebase'
-
-import firebase from 'firebase'
+import { dbMenuAdd, dbOrders} from '../firebase'
 import 'firebase/firestore'
 
 Vue.use(Vuex)
