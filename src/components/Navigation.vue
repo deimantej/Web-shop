@@ -126,13 +126,10 @@
 </template>
 
 <script>
-    import firebase from "firebase";
-    import "firebase/firestore";
-    import store from "../store.js";
-
 import firebase from "firebase";
 import "firebase/firestore";
 import store from "../store.js";
+
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     store.dispatch("setUser", user);
