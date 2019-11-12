@@ -2,7 +2,7 @@
    <v-container>
        <v-row>
            <v-col offset-md="3" md="6" xs="12">
-               <h1>Administrator login</h1>
+               <h1>Log in</h1>
 
                 <div id="info">
                     <v-text-field
@@ -17,12 +17,17 @@
                     required>
 
                     </v-text-field>
-                    <v-btn color="complete" @click.prevent="signIn()">
+                    <v-btn class="ma-3"  @click.prevent="signIn()">
                         Login
                     </v-btn>
-                    <v-btn color="incomplete" @click.prevent="signOut()">
+                    <v-btn class="ma-3" @click.prevent="signOut()">
                         SignOut
                     </v-btn>
+                </div>
+                <div>
+                    <span> Not a member yet? 
+                        <v-btn text small color="blue" to="/register">Create an account</v-btn>
+                    </span>
                 </div>
            </v-col>
        </v-row>

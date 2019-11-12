@@ -10,6 +10,7 @@ export default new Vuex.Store({
     basketItems: [],
     menuItems:[],
     orderItems: [],
+/*    wishlistItems: [], */
     currentUser: null
   },
   mutations: {
@@ -38,6 +39,24 @@ export default new Vuex.Store({
         })
       }
     },
+/*    addWishlistItems: (state, wishlistItems) => {
+      if (wishlistItems instanceof Array) {
+
+      
+        wishlistItems.forEach(item => {
+          if (state.wishlistItems.find(itemInArray => item.name === itemInArray.name)) {
+            item = state.wishlistItems.find(itemInArray => item.name === itemInArray.name);
+            item.quantity++;
+          } else {
+            state.wishlistItems.push({
+              name: item.name,
+              price: item.price,
+              quantity: 1
+            })
+          }
+        })
+      }
+    }, */
     userStatus (state, user) {
       if (user) {
         state.currentUser = user
@@ -97,6 +116,7 @@ export default new Vuex.Store({
     getBasketItems: state => state.basketItems,
     currentUser: state => state.currentUser,
     getMenuItems: state => state.menuItems,
-    getOrderItems: state => state.orderItems
+    getOrderItems: state => state.orderItems,
+  /*  getWishlistItems: state => state.wishlistItems */
   },
 })

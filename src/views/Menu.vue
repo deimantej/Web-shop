@@ -1,41 +1,9 @@
 <template>
-  <v-container>
-    <v-row>
-        <h1>Menu items</h1>
+  <v-container fluid >
 
-
-
-
-        <v-card class="ma-5" max-width="400" v-for="item in menuItems" :key="item.name">
-
-          <v-img class="white--text align-end"
-            height="200px" v-bind:src="item.image">
-            <v-card-title> 
-              <span id="td_name">{{ item.name }}</span> 
-              </v-card-title>
-          </v-img>
-
-
-
-          <v-card-text class="text--primary pa-3">
-             <span id="menu_item_description">{{ item.description }}</span>
-          </v-card-text>
-
-          <v-card-subtitle class="pa-3">
-             <span id="menu_item_price"> price DKK: {{ item.price }}</span>
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn small v-on:click="addToBasket(item)">
-                    <v-icon color="orange">add_box</v-icon> Add to cart
-                  </v-btn>
-          </v-card-actions>
-        </v-card>
-
-
-
-    </v-row>
-          <div id="shopping_cart" class="text-center">
+    
+<!---------  floating button that doesnt float wtf --------->
+    <div id="shopping_cart" class="text-center">
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
@@ -44,6 +12,11 @@
     >
       <template v-slot:activator="{ on }">
         <v-btn
+
+          fixed
+          fab
+          left
+          mid
           color="indigo"
           dark
           v-on="on"
@@ -113,6 +86,65 @@
       </v-card>
     </v-menu>
   </div>
+
+
+  <!------------------------  travel cards ------------------------------->
+    <v-layout class="text-center" >
+      <v-flex>
+        <h1>Travel packages</h1>
+      </v-flex>
+    
+    </v-layout>
+
+    
+    <v-layout style="margin-left:9vw;">
+    <v-row cols="12"
+        sm="4">
+        
+        <v-card id="item_box" class="ma-5" max-width="350" v-for="item in menuItems" :key="item.name">
+
+          <v-img class="white--text align-end"
+            height="200px" v-bind:src="item.image">
+            <v-card-title> 
+              <span id="td_name">{{ item.name }}</span> 
+              </v-card-title>
+          </v-img>
+
+
+
+          <v-card-text class="text--primary pa-3">
+             <span id="menu_item_description">{{ item.description }}</span>
+          </v-card-text>
+
+          <v-card-subtitle class="pa-3">
+             <span id="menu_item_price"> price DKK: {{ item.price }}</span>
+          </v-card-subtitle>
+
+          <v-card-actions>
+            <v-btn small v-on:click="addToBasket(item)">
+              <v-icon color="orange">add_box</v-icon> Add to cart
+            </v-btn>
+            <v-btn text small v-on:click="addToWishlist(item)">
+               <v-icon color="orange">mdi-heart</v-icon>
+            </v-btn>
+
+            
+
+
+
+
+
+          </v-card-actions>
+        </v-card>
+
+
+
+    </v-row>
+    </v-layout>
+
+
+     
+
   </v-container>
 </template>
 
@@ -151,6 +183,15 @@ export default {
       this.$store.commit("addBasketItems", this.basketDump);
       this.basketDump = [];
     },
+/*    addToWishlist(item) {
+      this.wishlistDump.push({
+        name: item.name,
+        price: item.price,
+        quantity: 1
+      });
+      this.$store.commit("addWishlistItems", this.wishlistDump);
+      this.wishlistDump = [];
+    },   */
     increaseQtn(item) {
       item.quantity++;
     },
@@ -210,5 +251,9 @@ export default {
 }
 #basket_checkout p:first-child {
   line-height: 2px;
+}
+
+#item_box{
+  max-height: 6000px;
 }
 </style>

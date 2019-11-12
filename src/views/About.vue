@@ -4,15 +4,11 @@
       
 
 
-      
+
     </v-layout>
   </v-container>
 </template>
 
 <style lang="scss" scoped>
-  .info_box:first-child .flex h1 {
-    font-size: 150%;
-    padding: 50px;
-    
-  }
+
 </style>
