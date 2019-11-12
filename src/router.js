@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import BootstrapVue from 'bootstrap-vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Menu from './views/Menu.vue'
@@ -7,12 +8,13 @@ import Orders from './views/Orders.vue'
 import AddNewItems from './components/admin/AddNewItems.vue'
 import Login from './components/admin/Login.vue'
 
+
 import firebase from 'firebase'
 import 'firebase/firestore'
 import Register from "./components/Register";
 
 Vue.use(Router)
-
+Vue.use(BootstrapVue)
 const router = new Router({
   mode: 'history',
   /*scrollBehavior (to, from, savedPosition) {
