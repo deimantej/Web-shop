@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+    import firebase, {dbUsers} from 'firebase'
 import 'firebase/firestore'
     export default {
         data(){
@@ -42,9 +42,9 @@ import 'firebase/firestore'
         },
         methods: {
       signIn() {
-        firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(() => {
-          this.$router.replace('/admin')
-          
+        firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(asd => {
+             console.log(asd.user.isAdmin);
+          this.$router.replace('/');
         })
         .catch(function(error) {
           var errorCode = error.code;

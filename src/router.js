@@ -9,6 +9,7 @@ import Login from './components/admin/Login.vue'
 
 import firebase from 'firebase'
 import 'firebase/firestore'
+import Register from "./components/Register";
 
 Vue.use(Router)
 
@@ -65,6 +66,10 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: Login
+    }, {
+      path: '/register',
+      name: 'register',
+      component: Register
     },
     {
       path: '*',

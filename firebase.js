@@ -1,8 +1,6 @@
-import firebase from "firebase/app"
-import "firebase/firestore"
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 import 'firebase/storage'
-
-
 
   // Your web app's Firebase configuration
   var firebaseConfig = {
@@ -15,9 +13,12 @@ import 'firebase/storage'
       appId: "1:592675700749:web:a627cea99517167de85544"
   };
   // Initialize Firebase
-  
-export const fb = firebase.initializeApp(firebaseConfig);
 
-export const db = firebase.firestore();
-export const dbMenuAdd = db.collection('menuItems');
-export const dbOrders = db.collection('orderItems');
+ const fb = firebase.initializeApp(firebaseConfig);
+
+ const db = firebase.firestore();
+ const dbMenuAdd = db.collection('menuItems');
+ const dbOrders = db.collection('orderItems');
+ const dbUsers = db.collection('users');
+
+ export {db, dbUsers, dbMenuAdd, dbOrders, fb};
