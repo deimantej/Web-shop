@@ -63,8 +63,8 @@
       <v-btn text class="hidden-sm-and-down" to="/about">About</v-btn>
       <v-btn text class="hidden-sm-and-down" to="/menu">Menu</v-btn>
       <v-btn text class="hidden-sm-and-down" to="/login">Login</v-btn>
-      <v-btn text class="hidden-sm-and-down" v-if="currentUser.isAdmin" to="/admin">Admin</v-btn>
-      <v-btn text class="hidden-sm-and-down" v-if="currentUser.isAdmin" to="/orders">Orders</v-btn>
+      <v-btn text class="hidden-sm-and-down" v-if="currentUser" to="/admin">Admin</v-btn>
+      <v-btn text class="hidden-sm-and-down" v-if="currentUser" to="/orders">Orders</v-btn>
       
 
       <div class="text-center hidden-sm-and-down " v-if="currentUser">
