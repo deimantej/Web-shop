@@ -18,17 +18,7 @@ export default {
   data() {
     return {
       dialog: false,
-      items: [
-        {
-          img: require("@/assets/pictures/nature.jpg")
-        },
-        {
-          img: require("@/assets/pictures/nature2.jpg")
-        },
-        {
-          img: require("@/assets/pictures/nature3.jpg")
-        },
-      ],
+      
       
     };
     

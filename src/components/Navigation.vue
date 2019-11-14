@@ -111,7 +111,7 @@
         >Orders</v-btn>
       </div>
 
-      <div class="text-center hidden-sm-and-down" v-if="currentUser">
+      <div class="text-center hidden-sm-and-down" style="z-index:3" v-if="currentUser">
         <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="100" offset-x>
           <template v-slot:activator="{ on }">
             <v-btn text v-on="on">My account</v-btn>
