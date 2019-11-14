@@ -3,6 +3,7 @@
     <home-page></home-page>
     <home-info></home-info>
     <carousel></carousel>
+        <home-info></home-info>
 
 
   </span>

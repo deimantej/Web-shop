@@ -1,6 +1,6 @@
 <template>
   <v-container fluid >
-    
+
     <v-snackbar
       v-model="addCheckoutItem"
     >
@@ -30,7 +30,7 @@
           fab
           left
           mid
-          color="indigo"
+          color="#a25054"
           dark
           v-on="on"
         >
@@ -41,7 +41,7 @@
       <v-card>
         <v-list>
           <v-list-item>
-            <v-icon>mdi-cart</v-icon>
+            <v-icon color="#a25054">mdi-cart</v-icon>
 
             <v-list-item-content>
               <v-list-item-title>Current basket</v-list-item-title>
@@ -52,17 +52,17 @@
           <v-simple-table id="menu-table" v-if="basket.length > 0">
             <thead>
               <tr>
-                <th class="text-left" style="width:30%">Quantity</th>
-                <th class="text-left" style="width:50%">Name of item</th>
+                <th class="text-left" style="width:30%">Number of travelers</th>
+                <th class="text-left" style="width:50%">Destination</th>
                 <th class="text-left" style="width:20%">Price</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="item in basket" :key="item.name">
                 <td>
-                  <v-icon color="orange" @click="increaseQtn(item)">add_box</v-icon>
+                  <v-icon color="#a25054" @click="increaseQtn(item)">add_box</v-icon>
                   {{ item.quantity }}
-                  <v-icon color="orange" @click="decreaseQtn(item)">indeterminate_check_box</v-icon>
+                  <v-icon color="#a25054" @click="decreaseQtn(item)">indeterminate_check_box</v-icon>
                 </td>
                 <td>{{ item.name }}</td>
                 <td>{{item.price}}</td>
@@ -78,7 +78,7 @@
           <v-row id="basket_checkout" class="mt-4" style="margin:0;">
             <v-col>
               <p>Subtotal:</p>
-              <p>Delivery:</p>
+              <p>Tax for charity:</p>
               <p>Total amount:</p>
             </v-col>
             <v-col class="text-right">
@@ -91,7 +91,7 @@
           </v-row>
           <v-row style="margin:0;">
             <v-spacer></v-spacer>
-            <v-btn color="orange" @click="addCheckoutItem()" to="/about">Checkout</v-btn>
+            <v-btn dark color="#a25054" @click="addCheckoutItem()" to="/about">Checkout</v-btn>
           </v-row>
         </div>
 
@@ -135,7 +135,7 @@
 
           <v-card-actions>
             <v-btn text small v-on:click="addToBasket(item)">
-              <v-icon left color="grey">mdi-cart</v-icon> Add to cart
+              <v-icon left color="#a25054">mdi-cart</v-icon> Add to cart
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn text small v-on:click="addToWishlist(item)">
