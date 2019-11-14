@@ -1,13 +1,19 @@
 <template>
-  <v-container grid-list-xs>
-    <v-layout align-center class="info_box">
-      
-
-
-
-    </v-layout>
-  </v-container>
+  <div>
+        <card-form></card-form>
+  </div>
 </template>
+
+<script>
+import CardForm from '../components/CardForm';
+  export default {
+    components: {
+    CardForm,
+
+  },
+};
+  
+</script>
 
 <style lang="scss" scoped>
 

@@ -1,9 +1,9 @@
 <template>
   
   <div>
-    <v-navigation-drawer temporary absolute class="hidden-md-and-up" color="primary" v-model="drawer" >
+    <v-navigation-drawer temporary absolute class="hidden-md-and-up" light color="white" v-model="drawer" >
 
-      <!--This is a comment. Comments are not displayed in the browser
+      
       <div v-if="currentUser">
         <v-card class="mx-auto" max-width="200" tile>
           <v-img height="100%" src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg">
@@ -23,7 +23,7 @@
             </v-row>
           </v-img>
         </v-card>
-      </div>-->
+      </div>
 
      <v-list>
        <v-list-tile active-class="pink lighten-2 white--text">
@@ -33,19 +33,18 @@
         <router-link tag="li" to="/menu">
           <v-icon color="orange">restaurant_menu</v-icon>Menu
         </router-link>
-
-        <router-link tag="li" to="/about">
-          <v-icon color="inprogress">info</v-icon>About
-        </router-link>
         <router-link tag="li" to="/login">
           <v-icon color="inprogress">info</v-icon>Login
         </router-link>
-        <router-link tag="li" to="/admin">
+        <div v-if="currentUser">
+          <router-link tag="li" v-if="currentUser.email.includes('admin')" to="/admin">
           <v-icon color="inprogress">lock</v-icon>Admin
         </router-link>
-        <router-link tag="li" v-if="currentUser" to="/orders" class="complete--text">
+        <router-link tag="li" v-if="currentUser.email.includes('admin')" to="/orders" class="complete--text">
           <v-icon color="complete">assignment</v-icon>Orders
         </router-link>
+        </div>
+        
        </v-list-tile>
      </v-list>
     </v-navigation-drawer>
@@ -60,11 +59,13 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn text class="hidden-sm-and-down"  to="/">Home</v-btn>
-      <v-btn text class="hidden-sm-and-down" to="/about">About</v-btn>
       <v-btn text class="hidden-sm-and-down" to="/menu">Menu</v-btn>
-      <v-btn text class="hidden-sm-and-down" to="/login">Login</v-btn>
-      <v-btn text class="hidden-sm-and-down" v-if="currentUser" to="/admin">Admin</v-btn>
-      <v-btn text class="hidden-sm-and-down" v-if="currentUser" to="/orders">Orders</v-btn>
+      <v-btn text class="hidden-sm-and-down"  to="/login">Login</v-btn>
+      <div v-if="currentUser">
+        <v-btn text class="hidden-sm-and-down" v-if="currentUser.email.includes('admin')" to="/admin">Admin</v-btn>
+        <v-btn text class="hidden-sm-and-down" v-if="currentUser.email.includes('admin')" to="/orders">Orders</v-btn>
+      </div>
+      
       
 
       <div class="text-center hidden-sm-and-down " v-if="currentUser">
@@ -103,7 +104,7 @@
           <v-list-item>
             <v-list-item-action>
 
-                    <v-btn  text to="/menu">
+                    <v-btn  text to="/useraccount">
                     <v-icon left >mdi-settings-outline</v-icon>Settings</v-btn>
                     <v-btn text to="/menu">
                     <v-icon left color="red" >mdi-heart</v-icon>Wishlist</v-btn>
@@ -139,13 +140,18 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 export default {
   data: () => ({
-    
+
     drawer: null
   }),
   computed: {
     currentUser() {
       return this.$store.getters.currentUser;
-    }
+    },
+    /*isAdmin(){
+      return currentUser().isAdmin.then(()=>{
+        this.$route.path === '/orders'
+      }) 
+    }*/
   },
   methods: {
     signOut() {
@@ -155,7 +161,15 @@ export default {
         }).catch(error => {
           
         })
+      },
+      beforeMount() {
+      if(firebase.auth().currentUser){
+          this.user = JSON.parse(localStorage.getItem('user'));
       }
+      else {
+          this.user = null;
+      }
+    },
   }
   
 };

@@ -1,8 +1,21 @@
 <template>
   <v-container fluid >
+    
+    <v-snackbar
+      v-model="addCheckoutItem"
+    >
+      {{ updatedStatus }}
+      <v-btn
+        color="pink"
+        text
+        @click="addCheckoutItem = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
 
     
-<!---------  floating button that doesnt float wtf --------->
+<!---------  floating button  --------->
     <div id="shopping_cart" class="text-center">
     <v-menu
       v-model="menu"
@@ -78,7 +91,7 @@
           </v-row>
           <v-row style="margin:0;">
             <v-spacer></v-spacer>
-            <v-btn color="orange" @click="addCheckoutItem()">Checkout</v-btn>
+            <v-btn color="orange" @click="addCheckoutItem()" to="/about">Checkout</v-btn>
           </v-row>
         </div>
 
@@ -97,11 +110,11 @@
     </v-layout>
 
     
-    <v-layout style="margin-left:9vw;">
+    <v-layout>
     <v-row cols="12"
-        sm="4">
+        justify="center">
         
-        <v-card id="item_box" class="ma-5" max-width="350" v-for="item in menuItems" :key="item.name">
+        <v-card  id="item_box" class="ma-5" max-width="350" v-for="item in menuItems" :key="item.name">
 
           <v-img class="white--text align-end"
             height="200px" v-bind:src="item.image">
@@ -121,11 +134,12 @@
           </v-card-subtitle>
 
           <v-card-actions>
-            <v-btn small v-on:click="addToBasket(item)">
-              <v-icon color="orange">add_box</v-icon> Add to cart
+            <v-btn text small v-on:click="addToBasket(item)">
+              <v-icon left color="grey">mdi-cart</v-icon> Add to cart
             </v-btn>
+            <v-spacer></v-spacer>
             <v-btn text small v-on:click="addToWishlist(item)">
-               <v-icon color="orange">mdi-heart</v-icon>
+               <v-icon  color="red">mdi-heart</v-icon>
             </v-btn>
 
             
@@ -154,7 +168,9 @@ import { dbMenuAdd } from "../../firebase";
 export default {
   data() {
     return {
-      basketDump: []
+      basketDump: [],
+      addCheckoutItem: false,
+      updatedStatus: 'Travel package has been added'
     };
   },
   beforeCreate() {

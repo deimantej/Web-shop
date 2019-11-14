@@ -36,8 +36,12 @@
 </template>
 
 <script>
-    import firebase, {dbUsers} from 'firebase'
+
+import {dbUsers} from "../../../firebase";
+import firebase from 'firebase'
 import 'firebase/firestore'
+
+
     export default {
         data(){
             return {
@@ -46,32 +50,36 @@ import 'firebase/firestore'
             }
         },
         methods: {
-      signIn() {
-        firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(asd => {
-             console.log(asd.user.isAdmin);
-          this.$router.replace('/');
-        })
-        .catch(function(error) {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          if (errorCode === 'auth/wrong-password') {
-            alert ("Wrong password")
-          } else {
-            alert (errorMessage)
-          }
-          console.log(error)
-        })
-      },
-      signOut() {
-        firebase.auth().signOut().then(() => {
-          alert('Logged Out');
-          this.$router.replace('/')
-        }).catch(error => {
-          
-        })
-      }
-    },
+          signIn() {
+                firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(res => {
+                        dbUsers.doc(res.user.uid).get().then(snapshot => {
+                                const user = snapshot.data();
+                                localStorage.setItem(JSON.stringify(user),'user');
+                        });
+                    //console.log(user);
+                    this.$router.replace('/');
+                })
+                    .catch(function (error) {
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        if (errorCode === 'auth/wrong-password') {
+                            alert("Wrong password")
+                        } else {
+                            alert(errorMessage)
+                        }
+                        console.log(error)
+                    })
+            },
+        signOut() {
+          firebase.auth().signOut().then(() => {
+            alert('Logged Out');
+            this.$router.replace('/')
+          }).catch(error => {
+            
+          })
+        },
 
+    },
     }
 </script>
 

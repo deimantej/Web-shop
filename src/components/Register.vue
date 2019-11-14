@@ -105,8 +105,8 @@
                                 isAdmin: this.isAdmin
                             });
                             console.log(res);
-                            // alert(`Account Created for ${res.email}`);
-                            // this.$router.push('/');
+                             alert(`Account Created for ${res.email}`);
+                             this.$router.push('/');
                         },
                         err => {
                             alert(err.message);
